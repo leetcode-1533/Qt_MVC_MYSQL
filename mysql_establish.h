@@ -9,7 +9,7 @@ public:
     Mysql_Establish(QString ="QMYSQL", QString="localhost" ,
                     QString ="root", QString="1562348" , QString ="test");
     void connects();
-    void initilize();
+    bool initilize();
     QSqlDatabase data();
 private:
     QString Type;

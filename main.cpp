@@ -9,20 +9,24 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Mysql_Establish con;
     con.connects();
+    qDebug()<<con.initilize();
+
     QMainWindow w;
-    W_login login(&con);
+    w.show();
+    return a.exec();
+//    W_login login(&con);
 
-    login.show();
-    qDebug()<<"test"<<login.exec();
+//    login.show();
+//    qDebug()<<"test"<<login.exec();
 
 
 
 
-    if(login.exec()!=QDialog::Accepted)
-    {
-        //w.show();
-        return a.exec();
-    }
-    else
-        return 0;
+//    if(login.exec()!=QDialog::Accepted)
+//    {
+//        //w.show();
+//        return a.exec();
+//    }
+//    else
+//        return 0;
 }

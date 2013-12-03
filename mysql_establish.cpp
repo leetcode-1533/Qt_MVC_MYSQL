@@ -30,10 +30,12 @@ Mysql_Establish::Mysql_Establish(QString type,QString hostname,
                 qDebug()<<"everything is fine";
             }
 }
-void Mysql_Establish::initilize(){
-    /*query=QSqlQuery(Mysql_Establish::database);
-    query.exec("create table professor(name char(64) primary key,"
-               "age char(20),password char(20),priority bigint(4))");*/
+bool Mysql_Establish::initilize(){
+    query=QSqlQuery(Mysql_Establish::database);
+    return query.exec("create table people(name char(64) primary kay,priority char(2),"
+               "password char(20),birthday date,gender char(10),email char(64))");
+
+
 }
 
 QSqlDatabase Mysql_Establish::data()
