@@ -4,7 +4,7 @@
 #include <QDialog>
 #include<QString>
 #include"mysql_establish.h"
-
+#include<QVector>
 namespace Ui {
 class W_login;
 }
@@ -20,6 +20,10 @@ public:
     
 private slots:
     void on_enterButton_clicked();
+    void on_pushButton_clicked();
+
+signals:
+    void found(QVector<int> name);
 
 private:
     Ui::W_login *ui;
@@ -27,6 +31,7 @@ private:
     QString pass;
     int priority(QString na, QString pass);
     Mysql_Establish * con;
+    QVector<int> set_pri(int a, int b);
 };
 
 #endif // W_LOGIN_H

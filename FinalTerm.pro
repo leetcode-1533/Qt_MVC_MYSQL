@@ -17,14 +17,16 @@ SOURCES += main.cpp\
     w_login.cpp \
     w_form.cpp \
     s_form.cpp \
-    sql_professor.cpp
+    sql_professor.cpp \
+    privilege.cpp
 
 HEADERS  += mainwindow.h \
     mysql_establish.h \
     w_form.h \
     w_login.h \
     s_form.h \
-    sql_professor.h
+    sql_professor.h \
+    privilege.h
 
 FORMS    += mainwindow.ui \
     w_login.ui \

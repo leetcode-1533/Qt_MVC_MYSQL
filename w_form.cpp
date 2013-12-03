@@ -16,7 +16,6 @@ W_Form::W_Form(QWidget *parent) :
     tab->addTab(label,"tab");
     tab->addTab(test,"SHUNI");
     tab->resize(400,300);
-
     this->resize(500,500);
 }
 

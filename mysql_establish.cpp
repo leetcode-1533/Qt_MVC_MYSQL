@@ -27,14 +27,14 @@ Mysql_Establish::Mysql_Establish(QString type,QString hostname,
                QMessageBox::warning(0,"my","te",QMessageBox::Cancel|QMessageBox::Abort);
             }
             else{
-                qDebug()<<"everything is fine";
+              "everything is fine";
             }
 }
 bool Mysql_Establish::initilize(){
     query=QSqlQuery(Mysql_Establish::database);
-    return query.exec("create table people(name char(64) primary kay,priority char(2),"
-               "password char(20),birthday date,gender char(10),email char(64))");
-
+    query.exec("create table person(name char(64) primary key,"
+               "birth date,password char(20),priority bigint(4),"
+               "type bigint(4),phone char(30),email char(30))");
 
 }
 

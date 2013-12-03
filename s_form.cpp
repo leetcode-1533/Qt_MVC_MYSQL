@@ -11,7 +11,6 @@ s_Form::s_Form(QWidget *parent) :
 {
     ui->setupUi(this);
     this->setGeometry(0,0,400,300);
-
 }
 
 s_Form::~s_Form()

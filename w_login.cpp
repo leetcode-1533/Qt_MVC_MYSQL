@@ -5,6 +5,7 @@
 #include"mysql_establish.h"
 #include<QtSql>
 #include<QString>
+#include<QVector>
 
 W_login::W_login(Mysql_Establish * connect, QString u1, QString u2, QWidget *parent) :
     QDialog(parent),
@@ -13,52 +14,78 @@ W_login::W_login(Mysql_Establish * connect, QString u1, QString u2, QWidget *par
 {
     ui->setupUi(this);
     ui->line_pass->setEchoMode(QLineEdit::Password);
+    ui->line_user->setFocus();
     con=connect;
 }
 
 W_login::~W_login()
 {
-    qDebug()<<user<<pass;
+   // qDebug()<<user<<pass;
     delete ui;
 }
+
 int W_login::priority(QString na, QString pass)
 {
     QSqlQuery test(con->data());
-   // qDebug()<<test.at();
-    test.exec("select * from professor");
-    int flag=0;
+    test.exec("select * from person");
+    bool flag = 0;
     while(test.next())
     {
-           // int id = query.value(0).toInt();
-
         QString name = test.value(0).toString();
         QString password = test.value(2).toString();
-        int pri = test.value(3).toInt();
-
         if (name==na&&pass==password)
         {
-            return pri;
+            flag = 1;
+            return test.at();
         }
     }
     if (flag==0)
     {
-        return 0;
+        return -1;
     }
 }
 void W_login::on_enterButton_clicked()
 {
     user=this->ui->line_user->text().trimmed();
     pass=this->ui->line_pass->text();
-  //  qDebug()<<priority(user,pass);
-     priority(user,pass);
-//     if (this->ui->line_user->text().trimmed()==user&&
-//             this->ui->line_pass->text()==pass)
-//         accept();
-//     else
-//     {
-//         QMessageBox::warning(this,tr("Wrong passer"),tr("some wrong with the input"),QMessageBox::Yes);
-//         this->ui->line_pass->clear();
-//         this->ui->line_user->clear();
-//         this->ui->line_user->setFocus();
-//     }
+    int loc =priority(user,pass);
+    if (loc==-1)
+    {
+         QMessageBox::warning(this,tr("Wrong passer"),
+                              tr("some wrong with the input"),QMessageBox::Yes);
+                  this->ui->line_pass->clear();
+                  this->ui->line_user->clear();
+                  this->ui->line_user->setFocus();
+    }
+     else{
+         QSqlQuery reader(con->data());
+         reader.exec("select * from person");
+         reader.seek(loc);
+         int av = reader.value(3).toInt();
+         int bv = reader.value(4).toInt();
+         emit found(set_pri(av,bv));
+         accept();
+     }
+}
+QVector<int> W_login::set_pri(int a,int b){
+    //qDebug()<<"yingjie"<<a<<b;
+    QVector<int> ap;
+    switch (a)
+    {
+    case 0: ap.append(0);break;
+    case 1: ap.append(1);break;
+    case 2: ap.append(2);break;
+    }
+    switch (b)
+    {
+    case 0:ap.append(0);break;
+    case 1:ap.append(1);break;
+    case 2:ap.append(2);break;
+    }
+    return ap;
+}
+
+void W_login::on_pushButton_clicked()
+{
+    this->close();
 }
