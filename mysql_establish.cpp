@@ -33,22 +33,7 @@ bool Mysql_Establish::initilize(){
                "birth date,password char(20),priority bigint(4),"
                "type bigint(4),phone char(30),email char(30))");
 
-     QString qtest= "INSERT INTO `test`.`person` (`name`, `birth`, `password`, `priority`, `type`, `phone`, `email`) VALUES (:first,:second,:third,:fourth,:fifth,:sixth,:seventh)";
-     query.prepare(qtest);
-     query.bindValue(":first","vcx");
-     query.bindValue(":second","2013-12-31");
-     query.bindValue(":third","123456");
-     query.bindValue(":fourth","1");
-     query.bindValue(":fifth","0");
-     query.bindValue(":sixth","4312");
-     query.bindValue(":seventh","4321");
-     if( query.exec())
-     {
-         qDebug()<<"Value Recored"<<endl;
-     }
-     else{
-         qDebug()<<query.lastError();
-     }
+
 
 }
 
