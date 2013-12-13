@@ -33,6 +33,9 @@ private:
     QVector<int> pri;
     privilege* cd;
     Mysql_Establish * con;
+
+    QAction *openAction;
+
 };
 
 #endif // MAINWINDOW_H

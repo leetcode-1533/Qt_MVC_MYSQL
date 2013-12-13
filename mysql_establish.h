@@ -7,7 +7,7 @@ class Mysql_Establish
 {
 public:
     Mysql_Establish(QString ="QMYSQL", QString="localhost" ,
-                    QString ="root", QString="1562348" , QString ="test");
+                    QString ="root", QString="1562348" , QString ="test",int =3306);
     void connects();
     bool initilize();
     QSqlDatabase data();
@@ -19,6 +19,7 @@ private:
     QString Basename;
     QSqlQuery query;
     QSqlDatabase database;
+    int port;
 };
 
 #endif // MYSQL_ESTABLISH_H

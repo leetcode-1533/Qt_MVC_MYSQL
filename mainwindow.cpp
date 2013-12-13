@@ -10,6 +10,16 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     con(connect)
 {
     ui->setupUi(this);
+
+    openAction = new QAction(tr("&Open"),this);
+    openAction->setShortcut(QKeySequence::Open);
+    openAction->setStatusTip(tr("Open a file"));
+
+    QMenu *file = menuBar()->addMenu(tr("&File"));
+    file->addAction(openAction);
+    QToolBar *toolBar = addToolBar(tr("&File"));
+    toolBar->addAction(openAction); 
+
 }
 
 MainWindow::~MainWindow()
