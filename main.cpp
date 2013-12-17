@@ -14,7 +14,8 @@ int main(int argc, char *argv[])
    // con.initilize();
 
     int flag = 0;
-    qDebug()<<con.data();
+//    qDebug()<<con.data();
+    // This part is about how to set up connections.
     while (con.data().isOpen()==false && flag == 0){
         QMessageBox::StandardButton tk=QMessageBox::warning(0,"Wrong","Wrong connection",
                                     QMessageBox::Retry|QMessageBox::Cancel);
@@ -31,9 +32,11 @@ int main(int argc, char *argv[])
     }
 
     {
-    MainWindow w(&con);
+
     W_login login(&con);
+    MainWindow w(&con);
     QObject::connect(&login,SIGNAL(found(QVector<int>)),&w,SLOT(set_pri(QVector<int>)));
+    //Something about the privilege System.
     login.show();
     return a.exec();
     }

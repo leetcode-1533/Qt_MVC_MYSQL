@@ -7,22 +7,9 @@
 MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    con(connect),tk(connect->data(),this)
+    con(connect)
 {
     ui->setupUi(this);
-
-    openAction = new QAction(tr("&Open"),this);
-    openAction->setShortcut(QKeySequence::Open);
-    openAction->setStatusTip(tr("Open a file"));
-
-    QMenu *file = menuBar()->addMenu(tr("&File"));
-    file->addAction(openAction);
-    QToolBar *toolBar = addToolBar(tr("&File"));
-    toolBar->addAction(openAction); 
-
-    this->setCentralWidget(ui->tableView);
-    ui->tableView->setModel(tk.gettable());
-
 }
 
 MainWindow::~MainWindow()
@@ -33,7 +20,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_pushButton_clicked()
 {
-    Filler.show();
+    pf->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -46,4 +33,5 @@ void MainWindow::set_pri(QVector<int> priv)
 {
     this->show();
     cd = new privilege(priv,this);
+    pf = new pForm(con,cd);
 }

@@ -2,12 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include"w_form.h"
 #include<QDebug>
 #include<QVector>
 #include "privilege.h"
 #include"mysql_establish.h"
-#include"sql_professor.h"
+#include"pform.h"
 
 namespace Ui {
 class MainWindow;
@@ -30,14 +29,11 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    W_Form Filler;
     QVector<int> pri;
     privilege* cd;
+    pForm* pf;
     Mysql_Establish * con;
 
-    QAction *openAction;
-
-    sql_professor tk;
 
 };
 

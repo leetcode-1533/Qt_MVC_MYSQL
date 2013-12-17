@@ -16,6 +16,9 @@ Mysql_Establish::Mysql_Establish(QString type,QString hostname,
     Basename=basename;
     port=po;
 }
+Mysql_Establish::~Mysql_Establish(){
+    database.close();
+}
 
  void Mysql_Establish::connects(){
             database=QSqlDatabase::addDatabase(Type);

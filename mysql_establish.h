@@ -11,6 +11,7 @@ public:
     void connects();
     bool initilize();
     QSqlDatabase data();
+    ~Mysql_Establish();
 private:
     QString Type;
     QString Hostname;

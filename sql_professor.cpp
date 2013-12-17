@@ -11,6 +11,7 @@ sql_professor::sql_professor(QSqlDatabase db, QObject *parent) :
     model->select();
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
     qDebug()<<model->lastError().text();
+
 }
 
 bool sql_professor::insert(){
