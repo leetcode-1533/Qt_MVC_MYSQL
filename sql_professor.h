@@ -20,10 +20,14 @@ public:
     QSqlTableModel * gettable(){
         return model;
     }
+    QSqlRelationalTableModel * getrel(){
+        return relmodel;
+    }
 
 private:
     QSqlDatabase data;
     QSqlTableModel * model;
+    QSqlRelationalTableModel * relmodel;
     QSqlQuery query;
 
     QString name;

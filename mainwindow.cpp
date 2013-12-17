@@ -21,7 +21,7 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     toolBar->addAction(openAction); 
 
     this->setCentralWidget(ui->tableView);
-    ui->tableView->setModel(tk.gettable());
+    ui->tableView->setModel(tk.getrel());
 
 }
 void MainWindow::keyPressEvent(QKeyEvent *event){

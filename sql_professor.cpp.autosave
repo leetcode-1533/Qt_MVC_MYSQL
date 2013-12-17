@@ -17,7 +17,7 @@ sql_professor::sql_professor(QSqlDatabase db, QObject *parent) :
     relmodel->setTable("person");
     relmodel->setRelation(0,QSqlRelation("test","name","test"));
     relmodel->select();
-    qDebug()<<relmodel->lastError().text()<<relmodel->relation(0).displayColumn();
+   // qDebug()<<relmodel->lastError().text()<<relmodel->relation(0).displayColumn();
 }
 
 bool sql_professor::insert(){
