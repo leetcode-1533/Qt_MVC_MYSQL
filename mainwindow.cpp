@@ -24,6 +24,20 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     ui->tableView->setModel(tk.gettable());
 
 }
+void MainWindow::keyPressEvent(QKeyEvent *event){
+    //qDebug()<<event->key();
+    if(event->key()==16777220){ //16777220 stands for Enter
+        if(tk.gettable()->submitAll()){
+            tk.gettable()->database().commit();
+            qDebug()<<"SQL_Submitted";
+        }
+        else
+        {
+            tk.gettable()->database().rollback();
+            qDebug()<<"arrogant";
+        }
+    }
+}
 
 MainWindow::~MainWindow()
 {

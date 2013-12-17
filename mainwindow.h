@@ -8,6 +8,7 @@
 #include "privilege.h"
 #include"mysql_establish.h"
 #include"sql_professor.h"
+#include "QKeyEvent"
 
 namespace Ui {
 class MainWindow;
@@ -38,7 +39,9 @@ private:
     QAction *openAction;
 
     sql_professor tk;
+protected:
 
+    void keyPressEvent(QKeyEvent * event);
 };
 
 #endif // MAINWINDOW_H
