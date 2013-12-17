@@ -7,9 +7,10 @@ sql_professor::sql_professor(QSqlDatabase db, QObject *parent) :
 {
     model=new QSqlTableModel(this,data);
     query=QSqlQuery(db);
-    model->setTable("professor");
+    model->setTable("person");
     model->select();
     model->setEditStrategy(QSqlTableModel::OnManualSubmit);
+    qDebug()<<model->lastError().text();
 }
 
 bool sql_professor::insert(){

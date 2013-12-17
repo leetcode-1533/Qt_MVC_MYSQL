@@ -17,6 +17,10 @@ public:
     }
 
     bool insert();
+    QSqlTableModel * gettable(){
+        return model;
+    }
+
 private:
     QSqlDatabase data;
     QSqlTableModel * model;

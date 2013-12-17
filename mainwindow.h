@@ -7,6 +7,7 @@
 #include<QVector>
 #include "privilege.h"
 #include"mysql_establish.h"
+#include"sql_professor.h"
 
 namespace Ui {
 class MainWindow;
@@ -35,6 +36,8 @@ private:
     Mysql_Establish * con;
 
     QAction *openAction;
+
+    sql_professor tk;
 
 };
 

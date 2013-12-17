@@ -7,7 +7,7 @@
 MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    con(connect)
+    con(connect),tk(connect->data(),this)
 {
     ui->setupUi(this);
 
@@ -19,6 +19,9 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     file->addAction(openAction);
     QToolBar *toolBar = addToolBar(tr("&File"));
     toolBar->addAction(openAction); 
+
+    this->setCentralWidget(ui->tableView);
+    ui->tableView->setModel(tk.gettable());
 
 }
 
