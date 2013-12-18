@@ -5,11 +5,12 @@ privilege::privilege(QVector<int> init, QObject *parent) :
     QObject(parent),
     pri(init)
 {
+  //  qDebug()<<init;
     switch (pri[0]){
     case 0:human=false;doc=false;break;
     case 1:human=true;doc=false;break;
     case 2:doc=true;human=false;break;
-    case 3:human=true;doc=false;break;
+    case 3:human=true;doc=true;break;
     }
     switch (pri[1]){
     case 0:tutor=false;stu=false;break;

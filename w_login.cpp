@@ -75,6 +75,8 @@ QVector<int> W_login::set_pri(int a,int b){
     case 0: ap.append(0);break;
     case 1: ap.append(1);break;
     case 2: ap.append(2);break;
+    case 3: ap.append(3);break;
+ //   default: ap.append(0);
     }
     switch (b)
     {

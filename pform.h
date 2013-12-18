@@ -14,7 +14,8 @@
 #include<QSqlTableModel>
 #include<QDataWidgetMapper>
 #include"mysql_establish.h"
-
+#include<QCheckBox>
+#include<QTableWidget>
 namespace Ui {
 class pForm;
 }
@@ -29,6 +30,7 @@ public:
 
     
 private slots:
+    void table_highlight(QModelIndex lm);
 
 private:
     Ui::pForm *ui;
@@ -40,22 +42,41 @@ private:
     QSqlDatabase database;
     QSqlTableModel * model;
 
+   //QTableWidget * tabbar;
 
 
+//pages:
+    QWidget *page1;
+    QWidget *page2;
+   //page1
     // Widgets:
-    QTabWidget * tab;
+    QTabWidget * tabbar;
+    QVBoxLayout * vlayoutc;
     QVBoxLayout * vlayout;
+    QHBoxLayout * hlayout;
     QGridLayout  * glayout;
+    QGridLayout * center;
 
 
     QTableView * stu;
-    QTableWidget * tutor;
-    QTableWidget * admin;
+
+    QCheckBox *professor;
+    QCheckBox *student;
+    QCheckBox *admin;
+
 
     QLineEdit * name;
     QLineEdit * birth;
     QLineEdit * phone;
     QLineEdit * email;
+
+    QLabel * in;
+    QLabel * ib;
+    QLabel *ip;
+    QLabel *ie;
+//page2:
+
+
 
 };
 
