@@ -1,7 +1,8 @@
 #include "pform.h"
 #include "ui_pform.h"
 #include <QDebug>
-
+#include<QSizePolicy>
+#include<QHeaderView>
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::pForm),
@@ -55,6 +56,7 @@ pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
                 //To highlight the entire row, insteads of a signal cell;
                 stu->setSelectionBehavior(QAbstractItemView::SelectRows);
                 stu->setSelectionMode(QAbstractItemView::SingleSelection);
+
 
             //Layout
                 glayout = new QGridLayout;
@@ -113,7 +115,11 @@ else{
     ie = new QLabel("Email",this);
     ib = new QLabel("Birth",this);
 
-   // name->setReadOnly(true);
+    name->setReadOnly(true);
+    phone->setReadOnly(true);
+    email->setReadOnly(true);
+    birth->setReadOnly(true);
+
 
 
 //View
@@ -126,6 +132,17 @@ else{
     //To highlight the entire row, insteads of a signal cell;
     stu->setSelectionBehavior(QAbstractItemView::SelectRows);
     stu->setSelectionMode(QAbstractItemView::SingleSelection);
+
+    // set readonly
+    stu->setEditTriggers(QAbstractItemView::NoEditTriggers);
+
+    //size
+//    stu->resizeColumnsToContents();
+//    stu->setSizePolicy(QSizePolicy::Ignored,QSizePolicy::Ignored);
+    stu->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
+    stu->horizontalHeader()->setStretchLastSection(true);
+
+
 
 //Layout
     glayout = new QGridLayout;
