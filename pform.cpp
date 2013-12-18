@@ -225,11 +225,14 @@ void pForm::CONNECT(bool mode){
 }
 
 void pForm::submit(){
+    model2->database().transaction();
     if(model2->submitAll()){
+        model->database().commit();
         qDebug()<<"success";
     }
     else{
-        qDebug()<<"failed!";
+        model->database().rollback();
+        qDebug()<<"failed!"<<model2->lastError();
     }
 }
 
