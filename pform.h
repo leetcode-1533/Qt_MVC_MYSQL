@@ -16,6 +16,8 @@
 #include"mysql_establish.h"
 #include<QCheckBox>
 #include<QTableWidget>
+#include<QPushButton>
+
 namespace Ui {
 class pForm;
 }
@@ -30,8 +32,7 @@ public:
 
     
 private slots:
-    void table_highlight(QModelIndex lm);
-
+    void submit();
 private:
     Ui::pForm *ui;
     privilege *tk;
@@ -51,19 +52,20 @@ private:
    //page1
     // Widgets:
     QTabWidget * tabbar;
-    QVBoxLayout * vlayoutc;
+
     QVBoxLayout * vlayout;
     QHBoxLayout * hlayout;
-    QGridLayout  * glayout;
-    QGridLayout * center;
 
+    QGridLayout  * glayout;
+    QGridLayout * glayoutc;
+    QGridLayout * center;
 
     QTableView * stu;
 
     QCheckBox *professor;
     QCheckBox *student;
-    QCheckBox *admin;
-
+    QLabel *prolabel;
+    QLabel *stulabel;
 
     QLineEdit * name;
     QLineEdit * birth;
@@ -76,7 +78,38 @@ private:
     QLabel *ie;
 //page2:
 
+    QSqlTableModel * model2;
+    QDataWidgetMapper * mapper2;
 
+    QLineEdit * pname;
+    QLineEdit * pbirth;
+    QLineEdit * pphone;
+    QLineEdit * pemail;
+    QLineEdit * ppass;
+    QLineEdit * p2pass;
+    QLineEdit * ppriority;
+    QLineEdit * ptype;
+
+    QLabel * lpname;
+    QLabel * lpbirth;
+    QLabel * lpphone;
+    QLabel * lpemail;
+    QLabel * lppass;
+    QLabel * lppriority;
+    QLabel * lptype;
+
+    QGridLayout * level1;
+    QHBoxLayout * level2_1;
+    QHBoxLayout * level2_2;
+    QVBoxLayout * all;
+
+    QPushButton *submitter;
+
+// pack up
+    void createpage1(QWidget * tku);
+    void createpage2(QWidget * tku);
+
+    void CONNECT(bool mode);
 
 };
 
