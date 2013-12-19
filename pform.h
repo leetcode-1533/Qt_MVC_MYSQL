@@ -17,6 +17,8 @@
 #include<QCheckBox>
 #include<QTableWidget>
 #include<QPushButton>
+#include<QSignalMapper>
+
 
 namespace Ui {
 class pForm;
@@ -33,9 +35,11 @@ public:
     
 private slots:
     void submit();
+    int pshow(bool state);
 private:
     Ui::pForm *ui;
     privilege *tk;
+
 
     QDataWidgetMapper * mapper;
 
@@ -64,8 +68,6 @@ private:
 
     QCheckBox *professor;
     QCheckBox *student;
-    QLabel *prolabel;
-    QLabel *stulabel;
 
     QLineEdit * name;
     QLineEdit * birth;

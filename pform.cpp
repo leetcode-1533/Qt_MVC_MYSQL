@@ -3,6 +3,8 @@
 #include <QDebug>
 #include<QSizePolicy>
 #include<QHeaderView>
+#include<QMessageBox>
+
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::pForm),
@@ -11,10 +13,12 @@ pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
     ui->setupUi(this);
     en=establish;
     database=en->data();
+
+
 //Model
     model= new QSqlTableModel(this,database);
     model->setTable("person");
-    model->select();
+//    model->select();
     model->removeColumn(4);
     model->removeColumn(3);
     model->removeColumn(2);
@@ -48,12 +52,13 @@ else{
             phone->setReadOnly(true);
             email->setReadOnly(true);
             birth->setReadOnly(true);
-
             stu->setEditTriggers(QAbstractItemView::NoEditTriggers);
 
 
 
 }
+
+
         //Clicked Slot:
         //    connect(stu,SIGNAL(clicked(QModelIndex )),stu,SLOT())
             CONNECT(test->e_hum());
@@ -66,10 +71,10 @@ pForm::~pForm()
 
 void pForm::createpage1(QWidget *tku){
     //checkBox:
-        student = new QCheckBox(tku);
-        professor = new QCheckBox(tku);
-        prolabel =new QLabel("Select Pro",tku);
-        stulabel =new QLabel("Select stu",tku);
+        student = new QCheckBox("stu",tku);
+        student->setChecked(false);
+        professor = new QCheckBox("pro",tku);
+        professor->setChecked(false);
 
     //Widget
         name = new QLineEdit(tku);
@@ -111,9 +116,9 @@ void pForm::createpage1(QWidget *tku){
 
 
         glayoutc->addWidget(professor,1,2);
-        glayoutc->addWidget(prolabel,1,1);
+
         glayoutc->addWidget(student,2,2);
-        glayoutc->addWidget(stulabel,2,1);
+
 
 
         glayout->addWidget(in,1,1);
@@ -221,18 +226,54 @@ void pForm::CONNECT(bool mode){
     }
 
     connect(stu,SIGNAL(clicked(QModelIndex )),mapper,SLOT(setCurrentModelIndex(QModelIndex )));
-
+    connect(professor,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
+    connect(student,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
 }
 
 void pForm::submit(){
+    if(ppass->text()!=p2pass->text())
+    {
+        QMessageBox::warning(this,tr("Wrong passer"),
+                             tr("Does not equal"),QMessageBox::Yes);
+    }
+
+    else{
+//    int rowNum= model2->rowCount();
+//    model2->insertRow(rowNum);
+    model2->select();
     model2->database().transaction();
     if(model2->submitAll()){
-        model->database().commit();
+        model2->database().commit();
         qDebug()<<"success";
     }
     else{
-        model->database().rollback();
+        model2->database().rollback();
         qDebug()<<"failed!"<<model2->lastError();
     }
+//    qDebug()<<mapper2->currentIndex();
+//    model2->insertRow(rowNum);
+
+
+    }
 }
+
+int pForm::pshow(bool state){
+    int a = professor->checkState();
+    int b = student->checkState();
+
+    if(a==Qt::Unchecked&&b==Qt::Unchecked)
+        model->setFilter("type=3");   //3 Does not exist,Sorry for My poor SQL
+    if(a==Qt::Checked&&b==Qt::Checked)
+        model->setFilter("");
+    if(a==Qt::Unchecked&&b==Qt::Checked)
+        model->setFilter("type=1");
+    if(a==Qt::Checked&&b==Qt::Unchecked)
+        model->setFilter("type=2");
+
+
+//    qDebug()<<model->filter()<<a<<b;
+    model->select();
+
+}
+
 
