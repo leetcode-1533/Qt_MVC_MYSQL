@@ -18,7 +18,9 @@
 #include<QTableWidget>
 #include<QPushButton>
 #include<QSignalMapper>
-
+#include"yingqlineedit.h"
+#include<QCalendarWidget>
+#include<QDate>
 
 namespace Ui {
 class pForm;
@@ -36,6 +38,8 @@ public:
 private slots:
     void submit();
     int pshow(bool state);
+    void setbirth();
+    void setbirth(QDate date);
 private:
     Ui::pForm *ui;
     privilege *tk;
@@ -84,7 +88,9 @@ private:
     QDataWidgetMapper * mapper2;
 
     QLineEdit * pname;
-    QLineEdit * pbirth;
+    QCalendarWidget *cal;
+    QGridLayout * callayout;
+    yingQlineEdit * pbirth;
     QLineEdit * pphone;
     QLineEdit * pemail;
     QLineEdit * ppass;

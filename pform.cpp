@@ -155,8 +155,10 @@ void pForm::createpage2(QWidget *tku){
                  all = new QVBoxLayout;
 
                  submitter = new QPushButton(tku);
+                 cal= new QCalendarWidget(tku);
+                 cal->hide();
                  pname = new QLineEdit(tku);
-                 pbirth = new QLineEdit(tku);
+                 pbirth = new yingQlineEdit(tku);
                  pphone = new QLineEdit(tku);
                  pemail = new QLineEdit(tku);
                  ppass = new QLineEdit(tku);
@@ -228,6 +230,9 @@ void pForm::CONNECT(bool mode){
     connect(stu,SIGNAL(clicked(QModelIndex )),mapper,SLOT(setCurrentModelIndex(QModelIndex )));
     connect(professor,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
     connect(student,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
+
+    connect(pbirth,SIGNAL(clicked()),this,SLOT(setbirth()));
+    connect(cal,SIGNAL(clicked(QDate)),this,SLOT(setbirth(QDate)));
 }
 
 void pForm::submit(){
@@ -273,7 +278,106 @@ int pForm::pshow(bool state){
 
 //    qDebug()<<model->filter()<<a<<b;
     model->select();
+}
+void pForm::setbirth()
+{
+    callayout = new QGridLayout;
+    //cal->adjustSize();
+//    int w=this->size().width();
+//    int h=this->size().height();
+//    cal->setGeometry(0,0,w,h);
+//    cal->show();
+    cal->resize(this->size());
+    cal->show();
+    callayout->addWidget(cal,1,1);
+
+
+//    lpname = new QLabel("name",tku);
+//    lpbirth = new QLabel("birth",tku);
+//    lpphone = new QLabel("phone",tku);
+//    lpemail = new QLabel("email",tku);
+//    lppass = new QLabel("pass",tku);
+//    lppriority = new QLabel("pri",tku);
+//    lptype = new QLabel("type",tku);
+
+    pname->hide();
+    pbirth->hide();
+    pphone->hide();
+    pemail->hide();
+    ppass->hide();
+    p2pass->hide();
+    ppriority->hide();
+    ptype->hide();
+
+    lpname->hide();
+    lpbirth->hide();
+    lpphone->hide();
+    lpemail->hide();
+    lppass->hide();
+    lppriority->hide();
+    lptype->hide();
+    submitter->hide();
+    all->removeItem(level1);
+    all->removeItem(level2_1);
+    all->removeItem(level2_2);
+    all->addWidget(cal);
+    delete level1;
+    delete level2_1;
+    delete level2_2;
+}
+void pForm::setbirth(QDate date){
+    QCalendarWidget * sen=(QCalendarWidget *)this->sender();
+    cal->hide();
+
+    pname->show();
+    pbirth->show();
+    pphone->show();
+    pemail->show();
+    ppass->show();
+    p2pass->show();
+    ppriority->show();
+    ptype->show();
+
+    lpname->show();
+    lpbirth->show();
+    lpphone->show();
+    lpemail->show();
+    lppass->show();
+    lppriority->show();
+    lptype->show();
+    submitter->show();
+
+    all->removeWidget(cal);
+    level1 = new QGridLayout;
+    level2_1 = new QHBoxLayout;
+    level2_2 = new QHBoxLayout;
+
+    level1->addWidget(pname,1,2);
+    level1->addWidget(pbirth,1,4);
+    level1->addWidget(lpname,1,1);
+    level1->addWidget(lpbirth,1,3);
+    level1->addWidget(pemail,2,2);
+    level1->addWidget(pphone,2,4);
+    level1->addWidget(lpphone,2,3);
+    level1->addWidget(lpemail,2,1);
+
+    level2_1->addWidget(lppass);
+    level2_1->addWidget(ppass);
+    level2_1->addWidget(p2pass);
+
+    level2_2->addWidget(lppriority);
+    level2_2->addWidget(ppriority);
+    level2_2->addWidget(lptype);
+    level2_2->addWidget(ptype);
+    level2_2->addWidget(submitter);
+
+    all->addLayout(level1);
+    all->addLayout(level2_1);
+    all->addLayout(level2_2);
+
+
+    pbirth->setText(date.toString());
+
 
 }
-
 
