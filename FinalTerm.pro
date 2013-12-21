@@ -18,7 +18,8 @@ SOURCES += main.cpp\
     sql_professor.cpp \
     privilege.cpp \
     pform.cpp \
-    yingqlineedit.cpp
+    yingqlineedit.cpp \
+    submit_dia.cpp
 
 HEADERS  += mainwindow.h \
     mysql_establish.h \
@@ -26,8 +27,10 @@ HEADERS  += mainwindow.h \
     sql_professor.h \
     privilege.h \
     pform.h \
-    yingqlineedit.h
+    yingqlineedit.h \
+    submit_dia.h
 
 FORMS    += mainwindow.ui \
     w_login.ui \
-    pform.ui
+    pform.ui \
+    submit_dia.ui

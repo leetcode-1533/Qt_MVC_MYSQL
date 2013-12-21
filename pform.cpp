@@ -4,7 +4,10 @@
 #include<QSizePolicy>
 #include<QHeaderView>
 #include<QMessageBox>
-
+#include"submit_dia.h"
+#include<QVector>
+#include<QStringList>
+#include<QString>
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::pForm),
@@ -53,15 +56,18 @@ else{
             email->setReadOnly(true);
             birth->setReadOnly(true);
             stu->setEditTriggers(QAbstractItemView::NoEditTriggers);
-
-
-
 }
 
 
         //Clicked Slot:
         //    connect(stu,SIGNAL(clicked(QModelIndex )),stu,SLOT())
             CONNECT(test->e_hum());
+//            int row = model2->rowCount();
+//            model2->insertRow(row);
+//            model2->setData(model2->index(row,0),"ying");
+//            model2->submitAll();
+
+
 }
 
 pForm::~pForm()
@@ -140,7 +146,6 @@ void pForm::createpage1(QWidget *tku){
         tku->setLayout(vlayout);
         //   tab = new QTabWidget(tku);
 
-
         mapper->addMapping(name,0);
         mapper->addMapping(birth,1);
         mapper->addMapping(email,2);
@@ -153,6 +158,7 @@ void pForm::createpage2(QWidget *tku){
                  level2_1 = new QHBoxLayout;
                  level2_2 = new QHBoxLayout;
                  all = new QVBoxLayout;
+
 
                  submitter = new QPushButton(tku);
                  cal= new QCalendarWidget(tku);
@@ -174,22 +180,8 @@ void pForm::createpage2(QWidget *tku){
                  lppriority = new QLabel("pri",tku);
                  lptype = new QLabel("type",tku);
 
-                 model2 = new QSqlTableModel(this,database);
-                 model2->setTable("person");
-                 model2->select();
-                 model2->setEditStrategy(QSqlTableModel::OnManualSubmit);
+                 query = new QSqlQuery(database);
 
-                 mapper2 = new QDataWidgetMapper(tku);
-                 mapper2->setModel(model2);
-
-                 mapper2->addMapping(pname,0);
-                 mapper2->addMapping(pbirth,1);
-                 mapper2->addMapping(ppass,2);
-                 mapper2->addMapping(ppriority,3);
-                 mapper2->addMapping(ptype,4);
-                 mapper2->addMapping(pemail,5);
-                 mapper2->addMapping(pphone,6);
-                 mapper2->toLast();
 
                  level1->addWidget(pname,1,2);
                  level1->addWidget(pbirth,1,4);
@@ -233,33 +225,88 @@ void pForm::CONNECT(bool mode){
 
     connect(pbirth,SIGNAL(clicked()),this,SLOT(setbirth()));
     connect(cal,SIGNAL(clicked(QDate)),this,SLOT(setbirth(QDate)));
+    {
+        connect(this,SIGNAL(clearall()),pname,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),pbirth,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),pemail,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),pphone,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),p2pass,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),ppass,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),ptype,SLOT(clear()));
+        connect(this,SIGNAL(clearall()),ppriority,SLOT(clear()));
+
+    }
 }
 
 void pForm::submit(){
-    if(ppass->text()!=p2pass->text())
+
+//    submitter = new QPushButton(tku);
+//    cal= new QCalendarWidget(tku);
+//    cal->hide();
+//    pname = new QLineEdit(tku);
+//    pbirth = new yingQlineEdit(tku);
+//    pphone = new QLineEdit(tku);
+//    pemail = new QLineEdit(tku);
+//    ppass = new QLineEdit(tku);
+//    p2pass = new QLineEdit(tku);
+//    ppriority = new QLineEdit(tku);
+//    ptype = new QLineEdit(tku);
+
+
+    QVector<QString> vec;
+    vec.append(pname->text());
+    vec.append(pbirth->text());
+    vec.append(ppass->text());
+    vec.append(ppriority->text());
+    vec.append(ptype->text());
+    vec.append(pphone->text());
+    vec.append(pemail->text());
+
+    QString str = QString("name,birth,password,priority,type,phone,email");
+    QStringList strlist = str.split(",");
+    bool could = true;
+    for (int i = 0 ; i<= 6;i++)
     {
-        QMessageBox::warning(this,tr("Wrong passer"),
-                             tr("Does not equal"),QMessageBox::Yes);
-    }
+        if(vec[i]==NULL)
+        {
 
+            QMessageBox::warning(this,tr("Incomplete"),
+                                 tr("%1 is missing").arg(strlist.at(i)),QMessageBox::Yes);
+            could = false;
+            break;
+        }
+    }
+//    /*qDebug*/()<<could;
+    if(could == true)
+    {
+
+
+    submit_dia * sub = new submit_dia(this);
+    sub->setModal(true);
+    sub->setdata(vec);
+    sub->show();
+    if(sub->exec()==true){
+    QString pre=QString ("INSERT INTO person (`name`, `birth`, `password`, `priority`, `type`, `phone`, `email`) VALUES (:name,:birth,:password,:priority,:type,:phone,:email)");
+    query->prepare(pre);
+    query->bindValue(":name",pname->text().toAscii());
+    query->bindValue(":birth",pbirth->text());
+    query->bindValue(":password",ppass->text());
+    query->bindValue(":priority",ppriority->text());
+    query->bindValue(":type",ptype->text());
+    query->bindValue(":phone",pphone->text());
+    query->bindValue(":email",pemail->text());
+    if(query->exec()==false){
+        QMessageBox::warning(this,tr("Failed"),
+                             tr("%1").arg(model->lastError().text()),QMessageBox::Yes);
+    }
     else{
-//    int rowNum= model2->rowCount();
-//    model2->insertRow(rowNum);
-    model2->select();
-    model2->database().transaction();
-    if(model2->submitAll()){
-        model2->database().commit();
-        qDebug()<<"success";
+    emit(clearall());
     }
-    else{
-        model2->database().rollback();
-        qDebug()<<"failed!"<<model2->lastError();
-    }
-//    qDebug()<<mapper2->currentIndex();
-//    model2->insertRow(rowNum);
-
 
     }
+
+    }
+
 }
 
 int pForm::pshow(bool state){
@@ -376,7 +423,7 @@ void pForm::setbirth(QDate date){
     all->addLayout(level2_2);
 
 
-    pbirth->setText(date.toString());
+    pbirth->setText(date.toString(Qt::ISODate));
 
 
 }

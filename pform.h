@@ -21,6 +21,9 @@
 #include"yingqlineedit.h"
 #include<QCalendarWidget>
 #include<QDate>
+#include<QSqlRecord>
+#include <QVariant>
+#include<QSqlQuery>
 
 namespace Ui {
 class pForm;
@@ -40,6 +43,8 @@ private slots:
     int pshow(bool state);
     void setbirth();
     void setbirth(QDate date);
+signals:
+    void clearall();
 private:
     Ui::pForm *ui;
     privilege *tk;
@@ -84,9 +89,7 @@ private:
     QLabel *ie;
 //page2:
 
-    QSqlTableModel * model2;
-    QDataWidgetMapper * mapper2;
-
+    QSqlQuery * query;
     QLineEdit * pname;
     QCalendarWidget *cal;
     QGridLayout * callayout;
