@@ -24,6 +24,7 @@
 #include<QSqlRecord>
 #include <QVariant>
 #include<QSqlQuery>
+#include<QComboBox>
 
 namespace Ui {
 class pForm;
@@ -102,8 +103,8 @@ private:
     QLineEdit * pemail;
     QLineEdit * ppass;
     QLineEdit * p2pass;
-    QLineEdit * ppriority;
-    QLineEdit * ptype;
+    QComboBox * ppriority;
+    QComboBox * ptype;
 
     QLabel * lpname;
     QLabel * lpbirth;

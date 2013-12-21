@@ -11,6 +11,7 @@
 #include<QPoint>
 #include<QModelIndex>
 #include<QSqlRecord>
+#include"privilege.h"
 
 
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
@@ -189,8 +190,22 @@ void pForm::createpage2(QWidget *tku){
                  pemail = new QLineEdit(tku);
                  ppass = new QLineEdit(tku);
                  p2pass = new QLineEdit(tku);
-                 ppriority = new QLineEdit(tku);
-                 ptype = new QLineEdit(tku);
+                 ppriority = new QComboBox(tku);
+                 ptype = new QComboBox(tku);
+
+                 ppass->setEchoMode(QLineEdit::Password);
+                 p2pass->setEchoMode(QLineEdit::Password);
+
+                 ppriority->addItem("none");
+//                 ppriority->addItem(privilege::p2str(1));
+//                 ppriority->addItem(privilege::p2str(2));
+//                 ppriority->addItem(privilege::p2str(3));
+
+
+//                 ptype->addItem(privilege::type2str(0));
+//                 ptype->addItem(privilege::type2str(1));
+//                 ptype->addItem(privilege::type2str(2));
+
 
                  lpname = new QLabel("name",tku);
                  lpbirth = new QLabel("birth",tku);
@@ -254,8 +269,8 @@ void pForm::CONNECT(bool mode){
         connect(this,SIGNAL(clearall()),pphone,SLOT(clear()));
         connect(this,SIGNAL(clearall()),p2pass,SLOT(clear()));
         connect(this,SIGNAL(clearall()),ppass,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),ptype,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),ppriority,SLOT(clear()));
+
+
 
     }
 }
@@ -273,16 +288,22 @@ void pForm::submit(){
 //    p2pass = new QLineEdit(tku);
 //    ppriority = new QLineEdit(tku);
 //    ptype = new QLineEdit(tku);
+    if(p2pass->text()!=ppass->text()){
+        QMessageBox::warning(this,"Wrong Passer","The passwords do not equal",QMessageBox::Yes);
+    }
 
 
+    else{
     QVector<QString> vec;
     vec.append(pname->text());
     vec.append(pbirth->text());
     vec.append(ppass->text());
-    vec.append(ppriority->text());
-    vec.append(ptype->text());
+    vec.append((QString)ppriority->currentIndex());
+    vec.append((QString)ptype->currentIndex());
     vec.append(pphone->text());
     vec.append(pemail->text());
+
+
 
     QString str = QString("name,birth,password,priority,type,phone,email");
     QStringList strlist = str.split(",");
@@ -311,8 +332,8 @@ void pForm::submit(){
     query->bindValue(":name",pname->text().toAscii());
     query->bindValue(":birth",pbirth->text());
     query->bindValue(":password",ppass->text());
-    query->bindValue(":priority",ppriority->text());
-    query->bindValue(":type",ptype->text());
+    query->bindValue(":priority",ppriority->currentIndex());
+    query->bindValue(":type",ptype->currentIndex());
     query->bindValue(":phone",pphone->text());
     query->bindValue(":email",pemail->text());
     if(query->exec()==false){
@@ -321,6 +342,10 @@ void pForm::submit(){
     }
     else{
     emit(clearall());
+    ptype->setCurrentIndex(-1);
+    ppriority->setCurrentIndex(-1);
+    pshow(true); //I didn't actual need the inputed variable itself, just to keep consistence of the Two functions
+    }
     }
     }
     }
@@ -331,13 +356,13 @@ int pForm::pshow(bool state){
     int b = student->checkState();
 
     if(a==Qt::Unchecked&&b==Qt::Unchecked)
-        model->setFilter("type=3");   //3 Does not exist,Sorry for My poor SQL
+        model->setFilter("type=11");   //11 Does not exist,Sorry for My poor SQL
     if(a==Qt::Checked&&b==Qt::Checked)
         model->setFilter("");
     if(a==Qt::Unchecked&&b==Qt::Checked)
-        model->setFilter("type=1");
+        model->setFilter("type=1");   // 1 stands for pro
     if(a==Qt::Checked&&b==Qt::Unchecked)
-        model->setFilter("type=2");
+        model->setFilter("type=2");  //2 stands for stu
 
 
 //    qDebug()<<model->filter()<<a<<b;
@@ -461,6 +486,7 @@ void pForm::del(){
        if (flag == true){
            model->removeRow(stu->selectionModel()->currentIndex().row());
            model->submitAll();
+           pshow(true);
        }else{
            model->revertAll();
        }
@@ -497,8 +523,8 @@ void pForm::reset1(){
     pbirth->setText(birth);
     ppass->setText(pass);
     p2pass->setText(pass);
-    ppriority->setText(pri);
-    ptype->setText(type);
+//    ppriority->setCurrentIndex(privilege::str2p(pri));
+//    ptype->setCurrentIndex(privilege::str2type(type));
     pphone->setText(phone);
     pemail->setText(email);
     model->removeRow(index.row());

@@ -3,6 +3,7 @@
 
 #include <QObject>
 #include<QVector>
+#include<QString>
 
 class privilege : public QObject
 {
@@ -21,6 +22,11 @@ public:
     bool e_stu(){
         return stu;
     }
+
+    static QString type2str(int type);
+    static int str2type(QString str);
+    static QString p2str(int p);
+    static int str2p(QString str);
     ~privilege();
 
 private:
