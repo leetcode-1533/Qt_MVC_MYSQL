@@ -43,6 +43,8 @@ private slots:
     int pshow(bool state);
     void setbirth();
     void setbirth(QDate date);
+    void del();
+    void reset();
 signals:
     void clearall();
 private:
@@ -115,6 +117,9 @@ private:
     QVBoxLayout * all;
 
     QPushButton *submitter;
+    QPushButton * deleter;
+    QPushButton * reseter1;
+    QPushButton * reseter2;
 
 // pack up
     void createpage1(QWidget * tku);

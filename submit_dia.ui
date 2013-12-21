@@ -32,7 +32,7 @@
      <item>
       <widget class="QLabel" name="label_8">
        <property name="text">
-        <string>Are you sure</string>
+        <string>Are you sure that you want to add as follows?</string>
        </property>
       </widget>
      </item>

@@ -8,6 +8,10 @@
 #include<QVector>
 #include<QStringList>
 #include<QString>
+#include<QPoint>
+#include<QModelIndex>
+
+
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
     QWidget(parent),
     ui(new Ui::pForm),
@@ -35,6 +39,10 @@ pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
 
             center = new QGridLayout;
             tabbar = new QTabWidget(this);
+
+
+
+
             //page1:
            {
               createpage1(page1);
@@ -67,6 +75,9 @@ else{
 //            model2->setData(model2->index(row,0),"ying");
 //            model2->submitAll();
 
+//            tabbar->setCurrentIndex(1);
+//            qDebug()<<tabbar->currentIndex();
+
 
 }
 
@@ -83,6 +94,9 @@ void pForm::createpage1(QWidget *tku){
         professor->setChecked(false);
 
     //Widget
+        deleter = new QPushButton("delete",tku);
+        reseter1 = new QPushButton("reset",tku);
+
         name = new QLineEdit(tku);
         phone = new QLineEdit(tku);
         email = new QLineEdit(tku);
@@ -131,11 +145,13 @@ void pForm::createpage1(QWidget *tku){
         glayout->addWidget(ib,1,3);
         glayout->addWidget(name,1,2);
         glayout->addWidget(birth,1,4);
+        glayout->addWidget(deleter,1,5);
 
         glayout->addWidget(ie,2,1);
         glayout->addWidget(ip,2,3);
         glayout->addWidget(email,2,2);
         glayout->addWidget(phone,2,4);
+        glayout->addWidget(reseter1,2,5);
 
         hlayout->addLayout(glayout);
         hlayout->addLayout(glayoutc);
@@ -159,8 +175,9 @@ void pForm::createpage2(QWidget *tku){
                  level2_2 = new QHBoxLayout;
                  all = new QVBoxLayout;
 
+                 submitter = new QPushButton("submit",tku);
 
-                 submitter = new QPushButton(tku);
+
                  cal= new QCalendarWidget(tku);
                  cal->hide();
                  pname = new QLineEdit(tku);
@@ -181,7 +198,6 @@ void pForm::createpage2(QWidget *tku){
                  lptype = new QLabel("type",tku);
 
                  query = new QSqlQuery(database);
-
 
                  level1->addWidget(pname,1,2);
                  level1->addWidget(pbirth,1,4);
@@ -216,7 +232,8 @@ void pForm::CONNECT(bool mode){
     }
     else{
         connect(submitter,SIGNAL(clicked()),this,SLOT(submit()));
-
+        connect(reseter1,SIGNAL(clicked()),this,SLOT(reset()));
+        connect(deleter,SIGNAL(clicked()),this,SLOT(del()));
     }
 
     connect(stu,SIGNAL(clicked(QModelIndex )),mapper,SLOT(setCurrentModelIndex(QModelIndex )));
@@ -279,8 +296,6 @@ void pForm::submit(){
 //    /*qDebug*/()<<could;
     if(could == true)
     {
-
-
     submit_dia * sub = new submit_dia(this);
     sub->setModal(true);
     sub->setdata(vec);
@@ -302,11 +317,8 @@ void pForm::submit(){
     else{
     emit(clearall());
     }
-
     }
-
     }
-
 }
 
 int pForm::pshow(bool state){
@@ -394,6 +406,7 @@ void pForm::setbirth(QDate date){
     lptype->show();
     submitter->show();
 
+
     all->removeWidget(cal);
     level1 = new QGridLayout;
     level2_1 = new QHBoxLayout;
@@ -422,8 +435,38 @@ void pForm::setbirth(QDate date){
     all->addLayout(level2_1);
     all->addLayout(level2_2);
 
-
     pbirth->setText(date.toString(Qt::ISODate));
+
+}
+
+void pForm::del(){
+
+    QModelIndex index = stu->selectionModel()->currentIndex();
+//    qDebug()<<stu->selectionModel()->currentIndex().data();
+    QString name=model->record(index.row()).value(0).toString();
+
+//    int row =stu->selectionModel()->currentIndex().row();
+//    int col = stu->selectionModel()->currentIndex();
+//    model->data()
+//    qDebug()<<stu->indexAt(QPoint(1,row));
+
+//    qDebug()<<model->dat(
+       bool flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure delete %1?").arg(name));
+       if (flag == true){
+           model->removeRow(stu->selectionModel()->currentIndex().row());
+           model->submitAll();
+       }else{
+           model->revertAll();
+       }
+//    model->data(QModeli)
+}
+void pForm::reset(){
+    QModelIndex index = stu->selectionModel()->currentIndex();
+//    qDebug()<<stu->selectionModel()->currentIndex().data();
+//    =model->record(index.row()).value(0).toString();
+    delete submitter;
+
+//   submitter = reseter;
 
 
 }
