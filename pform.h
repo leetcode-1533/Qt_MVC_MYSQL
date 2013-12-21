@@ -44,7 +44,9 @@ private slots:
     void setbirth();
     void setbirth(QDate date);
     void del();
-    void reset();
+    void reset1();
+    void reset2();
+    void reset_warning(int );
 signals:
     void clearall();
 private:

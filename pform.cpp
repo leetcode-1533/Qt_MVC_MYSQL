@@ -10,6 +10,7 @@
 #include<QString>
 #include<QPoint>
 #include<QModelIndex>
+#include<QSqlRecord>
 
 
 pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
@@ -176,6 +177,8 @@ void pForm::createpage2(QWidget *tku){
                  all = new QVBoxLayout;
 
                  submitter = new QPushButton("submit",tku);
+                 reseter2 = new QPushButton("reset",tku);
+                 reseter2->hide();
 
 
                  cal= new QCalendarWidget(tku);
@@ -217,6 +220,7 @@ void pForm::createpage2(QWidget *tku){
                  level2_2->addWidget(lptype);
                  level2_2->addWidget(ptype);
                  level2_2->addWidget(submitter);
+                 level2_2->addWidget(reseter2);
 
                  all->addLayout(level1);
                  all->addLayout(level2_1);
@@ -232,7 +236,8 @@ void pForm::CONNECT(bool mode){
     }
     else{
         connect(submitter,SIGNAL(clicked()),this,SLOT(submit()));
-        connect(reseter1,SIGNAL(clicked()),this,SLOT(reset()));
+        connect(reseter1,SIGNAL(clicked()),this,SLOT(reset1()));
+        connect(reseter2,SIGNAL(clicked()),this,SLOT(reset2()));
         connect(deleter,SIGNAL(clicked()),this,SLOT(del()));
     }
 
@@ -430,6 +435,7 @@ void pForm::setbirth(QDate date){
     level2_2->addWidget(lptype);
     level2_2->addWidget(ptype);
     level2_2->addWidget(submitter);
+    level2_2->addWidget(reseter2);
 
     all->addLayout(level1);
     all->addLayout(level2_1);
@@ -460,14 +466,66 @@ void pForm::del(){
        }
 //    model->data(QModeli)
 }
-void pForm::reset(){
+void pForm::reset_warning(int index)
+{
+    //Prevent go back to Page 1(In this case labeled 0
+        tabbar->setCurrentIndex(1);
+}
+
+void pForm::reset1(){
     QModelIndex index = stu->selectionModel()->currentIndex();
+    QSqlTableModel * model2= new QSqlTableModel(this,database);
+    model2->setTable("person");
+    model2->select();
+    QSqlRecord records = model2 ->record(index.row());
+
+    //Turn To Page 2
+    submitter->hide();
+    reseter2->show();
+    tabbar->setCurrentIndex(1);
+    connect(tabbar,SIGNAL(currentChanged(int)),this,SLOT(reset_warning(int)));
+    // Modify Page2
+    QString name=records.value(0).toString();
+    QString birth = records.value(1).toString();
+    QString pass = records.value(2).toString();
+    QString pri = records.value(3).toString();
+    QString type = records.value(4).toString();
+    QString phone = records.value(5).toString();
+    QString email = records.value(6).toString();
+
+    pname->setText(name);
+    pbirth->setText(birth);
+    ppass->setText(pass);
+    p2pass->setText(pass);
+    ppriority->setText(pri);
+    ptype->setText(type);
+    pphone->setText(phone);
+    pemail->setText(email);
+    model->removeRow(index.row());
+
 //    qDebug()<<stu->selectionModel()->currentIndex().data();
 //    =model->record(index.row()).value(0).toString();
-    delete submitter;
+//    delete submitter;
 
 //   submitter = reseter;
 
+}
+void pForm::reset2(){
+    bool flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure to modify ?"),QMessageBox::Yes,QMessageBox::Cancel);
+
+    if (flag == true){
+//        model->removeRow(stu->selectionModel()->currentIndex().row());
+        model->submitAll();
+    }else{
+        model->revertAll();
+    }
+    //Re-insert
+    {
+        this->submit();
+    }
+    disconnect(tabbar,SIGNAL(currentChanged(int)),0,0);
+    submitter->show();
+    reseter2->hide();
 
 }
 

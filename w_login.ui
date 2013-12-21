@@ -26,7 +26,7 @@
      <item>
       <widget class="QLineEdit" name="line_user">
        <property name="text">
-        <string>yingjie</string>
+        <string>shuni</string>
        </property>
       </widget>
      </item>
