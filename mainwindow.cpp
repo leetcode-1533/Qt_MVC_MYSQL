@@ -37,10 +37,17 @@ void MainWindow::set_pri(QVector<int> priv)
     cd = new privilege(priv,this);
     pf = new pForm(con,cd);
 
+    if(cd->e_tutor()&cd->e_stu()){
+        ui->pushButton_2->show();
+    }
+    else{
+        ui->pushButton_2->hide();
+    }
+
 
     if(cd->e_tutor())
     {
-        declearer->hide();
+        declearer->show();
     }
     else{
         declearer->hide();

@@ -42,9 +42,6 @@ pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
             center = new QGridLayout;
             tabbar = new QTabWidget(this);
 
-
-
-
             //page1:
            {
               createpage1(page1);
@@ -61,6 +58,8 @@ pForm::pForm(Mysql_Establish *establish, privilege *test, QWidget *parent) :
         }
 else{
             createpage1(this);
+            deleter->hide();
+            reseter1->hide();
             name->setReadOnly(true);
             phone->setReadOnly(true);
             email->setReadOnly(true);
@@ -254,25 +253,24 @@ void pForm::CONNECT(bool mode){
         connect(reseter1,SIGNAL(clicked()),this,SLOT(reset1()));
         connect(reseter2,SIGNAL(clicked()),this,SLOT(reset2()));
         connect(deleter,SIGNAL(clicked()),this,SLOT(del()));
+
+        connect(pbirth,SIGNAL(clicked()),this,SLOT(setbirth()));
+        connect(cal,SIGNAL(clicked(QDate)),this,SLOT(setbirth(QDate)));
+        {
+            connect(this,SIGNAL(clearall()),pname,SLOT(clear()));
+            connect(this,SIGNAL(clearall()),pbirth,SLOT(clear()));
+            connect(this,SIGNAL(clearall()),pemail,SLOT(clear()));
+            connect(this,SIGNAL(clearall()),pphone,SLOT(clear()));
+            connect(this,SIGNAL(clearall()),p2pass,SLOT(clear()));
+            connect(this,SIGNAL(clearall()),ppass,SLOT(clear()));
+        }
     }
 
     connect(stu,SIGNAL(clicked(QModelIndex )),mapper,SLOT(setCurrentModelIndex(QModelIndex )));
     connect(professor,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
     connect(student,SIGNAL(clicked(bool)),this,SLOT(pshow(bool)));
 
-    connect(pbirth,SIGNAL(clicked()),this,SLOT(setbirth()));
-    connect(cal,SIGNAL(clicked(QDate)),this,SLOT(setbirth(QDate)));
-    {
-        connect(this,SIGNAL(clearall()),pname,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),pbirth,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),pemail,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),pphone,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),p2pass,SLOT(clear()));
-        connect(this,SIGNAL(clearall()),ppass,SLOT(clear()));
 
-
-
-    }
 }
 
 void pForm::submit(){
@@ -297,7 +295,7 @@ void pForm::submit(){
     QVector<QString> vec;
     vec.append(pname->text());
     vec.append(pbirth->text());
-    vec.append(ppass->text().trimmed());
+    vec.append(ppass->text());
     vec.append(tk->p2str(ppriority->currentIndex()));
     vec.append(tk->type2str(ptype->currentIndex()));
     vec.append(pphone->text());
@@ -331,7 +329,7 @@ void pForm::submit(){
     query->prepare(pre);
     query->bindValue(":name",pname->text().toAscii());
     query->bindValue(":birth",pbirth->text());
-    query->bindValue(":password",ppass->text().trimmed());
+    query->bindValue(":password",ppass->text());
     query->bindValue(":priority",ppriority->currentIndex());
     query->bindValue(":type",ptype->currentIndex());
     query->bindValue(":phone",pphone->text());
