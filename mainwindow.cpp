@@ -12,6 +12,8 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     ui->setupUi(this);
     declearer = new QPushButton("declear",this);
     ui->horizontalLayout->addWidget(declearer);
+
+    connect->initilize();
 }
 
 MainWindow::~MainWindow()

@@ -2,6 +2,7 @@
 #include<QtSql>
 #include<QtDebug>
 #include<QMessageBox>
+#include<QString>
 
 //QSqlDatabase Mysql_Establish::database;
 
@@ -32,9 +33,14 @@ Mysql_Establish::~Mysql_Establish(){
 }
 bool Mysql_Establish::initilize(){
     query=QSqlQuery(Mysql_Establish::database);
-    query.exec("create table person(name char(64) primary key,"
-               "birth date,password char(20),priority bigint(4),"
-               "type bigint(4),phone char(30),email char(30))");
+//    query.exec("create table person(name char(64) primary key,"
+//               "birth date,password char(20),priority bigint(4),"
+//               "type bigint(4),phone char(30),email char(30))");
+    QString create_news=QString("CREATE TABLE news(id INT AUTO_INCREMENT,PRIMARY KEY(id),title TEXT, contens TEXT)");
+    QString create_rnews=QString("CREATE TABLE rnews(id INT,name char(64))");
+    query.exec(create_news);
+    query.exec(create_rnews);
+    qDebug()<<query.lastError();
 
 
 
