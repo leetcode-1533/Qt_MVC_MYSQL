@@ -18,7 +18,7 @@ privilege::privilege(QVector<int> init, QObject *parent) :
     case 2:tutor=true;stu=false;break;
     }
 }
-QString privilege::type2str(int type){
+QString privilege::p2str(int type){
     switch (type){
     case 0:return "none";
     case 1:return "human";
@@ -26,7 +26,7 @@ QString privilege::type2str(int type){
     case 3:return "full";
     }
 }
-int privilege::str2type(QString str){
+int privilege::str2p(QString str){
         if(str=="none")
             return 0;
         if (str=="human")
@@ -37,7 +37,7 @@ int privilege::str2type(QString str){
             return 3;
 
 }
-QString privilege::p2str(int p){
+QString privilege::type2str(int p){
 
 
         switch (p){
@@ -47,7 +47,7 @@ QString privilege::p2str(int p){
         }
 
 }
-int privilege::str2p(QString str){
+int privilege::str2type(QString str){
 //    switch (str){
 //    case "none":return 0;
 //    case "stu":return 1;

@@ -10,6 +10,8 @@ MainWindow::MainWindow(Mysql_Establish * connect, QWidget *parent) :
     con(connect)
 {
     ui->setupUi(this);
+    declearer = new QPushButton("declear",this);
+    ui->horizontalLayout->addWidget(declearer);
 }
 
 MainWindow::~MainWindow()
@@ -34,4 +36,13 @@ void MainWindow::set_pri(QVector<int> priv)
     this->show();
     cd = new privilege(priv,this);
     pf = new pForm(con,cd);
+
+
+    if(cd->e_tutor())
+    {
+        declearer->hide();
+    }
+    else{
+        declearer->hide();
+    }
 }

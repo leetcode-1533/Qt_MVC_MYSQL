@@ -7,6 +7,7 @@
 #include "privilege.h"
 #include"mysql_establish.h"
 #include"pform.h"
+#include<QPushButton>
 
 namespace Ui {
 class MainWindow;
@@ -33,6 +34,8 @@ private:
     privilege* cd;
     pForm* pf;
     Mysql_Establish * con;
+
+    QPushButton * declearer;
 
 
 };

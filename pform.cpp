@@ -196,15 +196,15 @@ void pForm::createpage2(QWidget *tku){
                  ppass->setEchoMode(QLineEdit::Password);
                  p2pass->setEchoMode(QLineEdit::Password);
 
-                 ppriority->addItem("none");
-//                 ppriority->addItem(privilege::p2str(1));
-//                 ppriority->addItem(privilege::p2str(2));
-//                 ppriority->addItem(privilege::p2str(3));
+                 ppriority->addItem(tk->p2str(0));
+                 ppriority->addItem(tk->p2str(1));
+                 ppriority->addItem(tk->p2str(2));
+                 ppriority->addItem(tk->p2str(3)); //Using the name of the class to call static function doesn't work for me
 
 
-//                 ptype->addItem(privilege::type2str(0));
-//                 ptype->addItem(privilege::type2str(1));
-//                 ptype->addItem(privilege::type2str(2));
+                 ptype->addItem(tk->type2str(0));
+                 ptype->addItem(tk->type2str(1));
+                 ptype->addItem(tk->type2str(2));
 
 
                  lpname = new QLabel("name",tku);
@@ -288,7 +288,7 @@ void pForm::submit(){
 //    p2pass = new QLineEdit(tku);
 //    ppriority = new QLineEdit(tku);
 //    ptype = new QLineEdit(tku);
-    if(p2pass->text()!=ppass->text()){
+    if(p2pass->text().trimmed()!=ppass->text().trimmed()){
         QMessageBox::warning(this,"Wrong Passer","The passwords do not equal",QMessageBox::Yes);
     }
 
@@ -297,9 +297,9 @@ void pForm::submit(){
     QVector<QString> vec;
     vec.append(pname->text());
     vec.append(pbirth->text());
-    vec.append(ppass->text());
-    vec.append((QString)ppriority->currentIndex());
-    vec.append((QString)ptype->currentIndex());
+    vec.append(ppass->text().trimmed());
+    vec.append(tk->p2str(ppriority->currentIndex()));
+    vec.append(tk->type2str(ptype->currentIndex()));
     vec.append(pphone->text());
     vec.append(pemail->text());
 
@@ -331,7 +331,7 @@ void pForm::submit(){
     query->prepare(pre);
     query->bindValue(":name",pname->text().toAscii());
     query->bindValue(":birth",pbirth->text());
-    query->bindValue(":password",ppass->text());
+    query->bindValue(":password",ppass->text().trimmed());
     query->bindValue(":priority",ppriority->currentIndex());
     query->bindValue(":type",ptype->currentIndex());
     query->bindValue(":phone",pphone->text());
@@ -523,8 +523,8 @@ void pForm::reset1(){
     pbirth->setText(birth);
     ppass->setText(pass);
     p2pass->setText(pass);
-//    ppriority->setCurrentIndex(privilege::str2p(pri));
-//    ptype->setCurrentIndex(privilege::str2type(type));
+    ppriority->setCurrentIndex(pri.toInt());
+    ptype->setCurrentIndex(type.toInt());
     pphone->setText(phone);
     pemail->setText(email);
     model->removeRow(index.row());
