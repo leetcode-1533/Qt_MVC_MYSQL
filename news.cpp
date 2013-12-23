@@ -22,7 +22,9 @@ news::news(Mysql_Establish *conn,QWidget *parent) :
     model->setRelation(1,QSqlRelation("news","id","title"));
     model->setRelation(2,QSqlRelation("news","id","contents"));
     model->setRelation(3,QSqlRelation("person","name","name"));
-    model->setFilter(" `name` = 'yingjie'");
+
+
+//    qDebug()<<name;
 //    model->setRelation(0,QSqlRelation("news","id","title"));
 //    model->setRelation(2,QSqlRelation("news","news_id","contents"));
 //                       qDebug()<<model->relation(0).displayColumn();
@@ -46,8 +48,15 @@ news::~news()
     delete ui;
 
 }
+void news::setname(QString namer){
+    name=namer;
+    model->setFilter(tr(" `name` = '%1'").arg(name));
+    model->select();
+}
 
 void news::insert(){
+//    qDebug()<<"name"<<name;
+
     int flag=QMessageBox::question(this,"Are you sure","Your news is going to be published",QMessageBox::Save,QMessageBox::Cancel);
  //   qDebug()<<flag;
     if(flag==QMessageBox::Cancel){
@@ -115,5 +124,4 @@ void news::insert(){
 }
 void news::detail(QModelIndex index){
 //    model
-
 }

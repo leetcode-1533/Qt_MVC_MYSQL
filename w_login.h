@@ -30,6 +30,7 @@ private slots:
 
 signals:
     void found(QVector<int>);
+    void name(QString);
 
 private:
     Ui::W_login *ui;

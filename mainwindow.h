@@ -19,7 +19,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
     
 public:
-    explicit MainWindow(Mysql_Establish * connect,QWidget *parent = 0);
+    explicit MainWindow(news *wrong,Mysql_Establish * connects,QWidget *parent = 0);
     ~MainWindow();
     
 private slots:

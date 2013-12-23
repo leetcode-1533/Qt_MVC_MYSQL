@@ -4,16 +4,15 @@
 #include<QDebug>
 #include"privilege.h"
 
-MainWindow::MainWindow(Mysql_Establish * connects, QWidget *parent) :
+MainWindow::MainWindow(news *wrong, Mysql_Establish *connects, QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
+    ui(new Ui::MainWindow),newer(wrong),
     con(connects)
 {
     ui->setupUi(this);
     declearer = new QPushButton("declear",this);
     ui->horizontalLayout->addWidget(declearer);
 
-    newer = new news(con);
     ui->tableView->setModel(newer->getmodel());
     ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
@@ -38,6 +37,7 @@ MainWindow::~MainWindow()
 void MainWindow::on_pushButton_clicked()
 {
     pf->show();
+//    newer->show();
 }
 
 void MainWindow::on_pushButton_2_clicked()
@@ -59,7 +59,7 @@ void MainWindow::set_pri(QVector<int> priv)
         ui->pushButton_2->hide();
     }
 
-    qDebug()<<cd->e_tutor();
+  //  qDebug()<<cd->e_tutor();
     if(cd->e_tutor())
     {
         declearer->show();

@@ -38,10 +38,16 @@ private:
 //    QSqlRelationalTableModel *modeld;
     QDataWidgetMapper * mapper;
     bignews * dia;
+    QString name;
 private slots:
     void insert();
     void detail(QModelIndex  index);
-
+    void setname(QString namer);
+////        qDebug()<<"LOVE";
+//            name = namer;
+////            qDebug()<<name<<namer;
+////            model->select();
+//    }
 
 };
 

@@ -31,11 +31,12 @@ int W_login::priority(QString na, QString pass)
     bool flag = 0;
     while(test.next())
     {
-        QString name = test.value(0).toString();
+        QString namer = test.value(0).toString();
         QString password = test.value(2).toString();
-        if (name==na&&pass==password)
+        if (namer==na&&pass==password)
         {
             flag = 1;
+            emit name(namer);
             return test.at();
         }
     }
@@ -64,6 +65,7 @@ void W_login::on_enterButton_clicked()
          int av = reader.value(3).toInt();
          int bv = reader.value(4).toInt();
          emit found(set_pri(av,bv));
+
          accept();
      }
 }

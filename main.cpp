@@ -5,6 +5,7 @@
 #include<QDebug>
 #include<QObject>
 #include<QMessageBox>
+#include"news.h"
 
 int main(int argc, char *argv[])
 {
@@ -33,8 +34,11 @@ int main(int argc, char *argv[])
 
     {
     W_login login(&con);
-    MainWindow w(&con);
+    news * wrong = new news(&con);
+    MainWindow w(wrong,&con);
+    wrong->hide();
     QObject::connect(&login,SIGNAL(found(QVector<int>)),&w,SLOT(set_pri(QVector<int>)));
+    QObject::connect(&login,SIGNAL(name(QString)),wrong,SLOT(setname(QString)));
     //Something about the privilege System.
     login.show();
 
