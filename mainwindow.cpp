@@ -18,6 +18,8 @@ MainWindow::MainWindow(Mysql_Establish * connects, QWidget *parent) :
     ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
     connect(declearer,SIGNAL(clicked()),newer,SLOT(show()));
+
+    connects->initilize();
     //connect(ui->tableView,SIGNAL(clicked(QModelIndex)),)
 //    connect->initilize();
 }

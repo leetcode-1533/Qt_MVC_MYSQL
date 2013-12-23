@@ -43,6 +43,7 @@ void news::insert(){
     else{
         QString til=ui->lineEdit->text();
         QString cont=ui->textEdit->document()->toHtml();
+        int loc;
                 //        qDebug()<<cont->toHtml();
 //        ui->label_2->setText(ui->textEdit->document()->toHtml());
 //        ui->textEdit_2->setText(cont->toHtml());
@@ -60,16 +61,30 @@ void news::insert(){
 //            query->value()
 
             // refresh readable
-
+//get id
             QSqlQuery test(con->data());
             test.exec("select * from news");
             while(test.next()){
                 if(test.value(1)==til,test.value(2)==cont){
-                    qDebug()<<test.value(0);
+                    loc=test.value(0).toInt();
                     break;
                 }
 
             }
+            QSqlQuery per(con->data());
+
+            per.exec("select * from person");
+            while(per.next()){
+                QString name = per.value(0).toString();
+                QSqlQuery inst(con->data());
+                inst.prepare("INSERT INTO `test`.`readable` (`id`, `news_id`, `per_name`) VALUES (NULL, :id, :name);");
+                inst.bindValue(":id",loc);
+                inst.bindValue(":name",name);
+                if(inst.exec()==false)
+                qDebug()<<name<<loc<<endl;
+
+            }
+            model->select();
 
 //            while(test.next())
 //            {
