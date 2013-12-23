@@ -22,7 +22,6 @@ W_login::~W_login()
 {
    // qDebug()<<user<<pass;
     delete ui;
-//    qDebug()<<getname();
 }
 
 int W_login::priority(QString na, QString pass)

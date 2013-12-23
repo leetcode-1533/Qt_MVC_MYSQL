@@ -17,7 +17,7 @@ class W_login : public QDialog
 public:
     explicit W_login(Mysql_Establish * connect,  QString u1=tr("Test"),
                      QString u2=tr("test"),QWidget * parent = 0);
-    static QString getname(){
+    QString getname(){
         qDebug()<<user;
         return user;
     }
@@ -29,7 +29,7 @@ private slots:
     void on_pushButton_clicked();
 
 signals:
-    void found(QVector<int> name);
+    void found(QVector<int>);
 
 private:
     Ui::W_login *ui;

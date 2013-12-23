@@ -5,7 +5,8 @@ privilege::privilege(QVector<int> init, QObject *parent) :
     QObject(parent),
     pri(init)
 {
-  //  qDebug()<<init;
+
+
     switch (pri[0]){
     case 0:human=false;doc=false;break;
     case 1:human=true;doc=false;break;
@@ -17,6 +18,7 @@ privilege::privilege(QVector<int> init, QObject *parent) :
     case 1:tutor=false;stu=true;break;
     case 2:tutor=true;stu=false;break;
     }
+
 }
 QString privilege::p2str(int type){
     switch (type){
