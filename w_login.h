@@ -5,6 +5,7 @@
 #include<QString>
 #include"mysql_establish.h"
 #include<QVector>
+
 namespace Ui {
 class W_login;
 }
@@ -32,6 +33,7 @@ private:
     int priority(QString na, QString pass);
     Mysql_Establish * con;
     QVector<int> set_pri(int a, int b);
+
 };
 
 #endif // W_LOGIN_H

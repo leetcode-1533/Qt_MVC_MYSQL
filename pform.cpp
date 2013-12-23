@@ -323,7 +323,7 @@ void pForm::submit(){
     submit_dia * sub = new submit_dia(this);
     sub->setModal(true);
     sub->setdata(vec);
-    sub->show();
+   // sub->show();
     if(sub->exec()==true){
     QString pre=QString ("INSERT INTO person (`name`, `birth`, `password`, `priority`, `type`, `phone`, `email`) VALUES (:name,:birth,:password,:priority,:type,:phone,:email)");
     query->prepare(pre);
@@ -336,7 +336,7 @@ void pForm::submit(){
     query->bindValue(":email",pemail->text());
     if(query->exec()==false){
         QMessageBox::warning(this,tr("Failed"),
-                             tr("%1").arg(model->lastError().text()),QMessageBox::Yes);
+                             tr("%1").arg(query->lastError().text()),QMessageBox::Yes);
     }
     else{
     emit(clearall());
@@ -480,8 +480,8 @@ void pForm::del(){
 //    qDebug()<<stu->indexAt(QPoint(1,row));
 
 //    qDebug()<<model->dat(
-       bool flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure delete %1?").arg(name));
-       if (flag == true){
+       int flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure delete %1?").arg(name),QMessageBox::Ok,QMessageBox::Cancel);
+       if (flag == QMessageBox::Ok){
            model->removeRow(stu->selectionModel()->currentIndex().row());
            model->submitAll();
            pshow(true);
@@ -498,6 +498,7 @@ void pForm::reset_warning(int index)
 
 void pForm::reset1(){
     QModelIndex index = stu->selectionModel()->currentIndex();
+    if(index.isValid()){
     QSqlTableModel * model2= new QSqlTableModel(this,database);
     model2->setTable("person");
     model2->select();
@@ -532,21 +533,25 @@ void pForm::reset1(){
 //    delete submitter;
 
 //   submitter = reseter;
+    }
 
 }
 void pForm::reset2(){
-    bool flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure to modify ?"),QMessageBox::Yes,QMessageBox::Cancel);
+    int flag =QMessageBox::warning(this,tr("Are you sure"),tr("are you sure to modify ?"),QMessageBox::Yes,QMessageBox::Cancel);
 
-    if (flag == true){
+    if (flag == QMessageBox::Yes){
 //        model->removeRow(stu->selectionModel()->currentIndex().row());
         model->submitAll();
+        //re-insert
+        this->submit();
     }else{
         model->revertAll();
+        emit(clearall());
+        ptype->setCurrentIndex(-1);
+        ppriority->setCurrentIndex(-1);
+
     }
-    //Re-insert
-    {
-        this->submit();
-    }
+
     disconnect(tabbar,SIGNAL(currentChanged(int)),0,0);
     submitter->show();
     reseter2->hide();

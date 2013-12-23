@@ -36,11 +36,11 @@ bool Mysql_Establish::initilize(){
 //    query.exec("create table person(name char(64) primary key,"
 //               "birth date,password char(20),priority bigint(4),"
 //               "type bigint(4),phone char(30),email char(30))");
-    QString create_news=QString("CREATE TABLE news(id INT AUTO_INCREMENT,PRIMARY KEY(id),title TEXT, contens TEXT)");
-    QString create_rnews=QString("CREATE TABLE rnews(id INT,name char(64))");
+    QString create_news=QString("CREATE TABLE news(id INT(11) NOT NULL AUTO_INCREMENT, title TEXT , contents TEXT,PRIMARY KEY(id))ENGINE=InnoDB");
+    QString create_readable=QString("CREATE TABLE readable(id INT(11) NOT NULL AUTO_INCREMENT,news_id INT(11),per_name char(64),PRIMARY KEY(id), FOREIGN KEY(news_id) REFERENCES news(id),FOREIGN KEY (per_name) REFERENCES person(name))ENGINE=InnoDB");
     query.exec(create_news);
-    query.exec(create_rnews);
-    qDebug()<<query.lastError();
+    query.exec(create_readable);
+   // qDebug()<<query.lastError();
 
 
 

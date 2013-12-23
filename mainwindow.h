@@ -8,7 +8,7 @@
 #include"mysql_establish.h"
 #include"pform.h"
 #include<QPushButton>
-
+#include"news.h"
 namespace Ui {
 class MainWindow;
 }
@@ -28,13 +28,14 @@ private slots:
 
     void set_pri(QVector<int> priv);
 
+
 private:
     Ui::MainWindow *ui;
     QVector<int> pri;
     privilege* cd;
     pForm* pf;
     Mysql_Establish * con;
-
+    news *newer;
     QPushButton * declearer;
 
 
