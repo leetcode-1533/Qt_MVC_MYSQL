@@ -17,9 +17,14 @@ MainWindow::MainWindow(Mysql_Establish * connects, QWidget *parent) :
     ui->tableView->setModel(newer->getmodel());
     ui->tableView->horizontalHeader()->setResizeMode(QHeaderView::Stretch);
     ui->tableView->horizontalHeader()->setStretchLastSection(true);
+//    ui->tableView->setColumnHidden(0,true);
+//    ui->tableView->setColumnHidden(2,true);
+//    ui->tableView
     connect(declearer,SIGNAL(clicked()),newer,SLOT(show()));
 
+
     connects->initilize();
+    connect(ui->tableView,SIGNAL(clicked(QModelIndex)),newer,SLOT(detail(QModelIndex )));
     //connect(ui->tableView,SIGNAL(clicked(QModelIndex)),)
 //    connect->initilize();
 }

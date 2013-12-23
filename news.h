@@ -10,6 +10,8 @@
 #include<QSqlTableModel>
 #include<QModelIndex>
 #include<QSqlRelationalTableModel>
+#include<QDataWidgetMapper>
+#include"bignews.h"
 
 namespace Ui {
 class news;
@@ -32,11 +34,13 @@ private:
     Ui::news *ui;
     Mysql_Establish *con;
     QSqlQuery *query;
-    QSqlTableModel * model;
-    QSqlRelationalTableModel *modeld;
+    QSqlRelationalTableModel * model;
+//    QSqlRelationalTableModel *modeld;
+    QDataWidgetMapper * mapper;
+    bignews * dia;
 private slots:
     void insert();
-    void detail(QModelIndex &index);
+    void detail(QModelIndex  index);
 
 
 };

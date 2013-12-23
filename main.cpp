@@ -32,13 +32,14 @@ int main(int argc, char *argv[])
     }
 
     {
-
     W_login login(&con);
     MainWindow w(&con);
     QObject::connect(&login,SIGNAL(found(QVector<int>)),&w,SLOT(set_pri(QVector<int>)));
     //Something about the privilege System.
     login.show();
+
     return a.exec();
+//    login.getname();//
     }
 
 

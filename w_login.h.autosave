@@ -17,7 +17,7 @@ class W_login : public QDialog
 public:
     explicit W_login(Mysql_Establish * connect,  QString u1=tr("Test"),
                      QString u2=tr("test"),QWidget * parent = 0);
-    static QString getname(){
+     QString getname(){
         qDebug()<<user;
         return user;
     }
@@ -37,7 +37,7 @@ private:
     QString pass;
     int priority(QString na, QString pass);
     Mysql_Establish * con;
-    QVector<int> set_pri(int a, int b);
+    QVector<QString> set_pri(int a, int b);
 
 };
 

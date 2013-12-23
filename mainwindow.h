@@ -9,6 +9,7 @@
 #include"pform.h"
 #include<QPushButton>
 #include"news.h"
+#include<QSqlRelationalTableModel>
 namespace Ui {
 class MainWindow;
 }
@@ -37,6 +38,7 @@ private:
     Mysql_Establish * con;
     news *newer;
     QPushButton * declearer;
+    QSqlRelationalTableModel * rel;
 
 
 };

@@ -20,7 +20,8 @@ SOURCES += main.cpp\
     pform.cpp \
     yingqlineedit.cpp \
     submit_dia.cpp \
-    news.cpp
+    news.cpp \
+    bignews.cpp
 
 HEADERS  += mainwindow.h \
     mysql_establish.h \
@@ -30,10 +31,12 @@ HEADERS  += mainwindow.h \
     pform.h \
     yingqlineedit.h \
     submit_dia.h \
-    news.h
+    news.h \
+    bignews.h
 
 FORMS    += mainwindow.ui \
     w_login.ui \
     pform.ui \
     submit_dia.ui \
-    news.ui
+    news.ui \
+    bignews.ui
