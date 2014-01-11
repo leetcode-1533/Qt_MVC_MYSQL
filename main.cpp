@@ -12,7 +12,8 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     Mysql_Establish con;
     con.connects();
-   // con.initilize();
+    con.initilize();
+    qDebug()<<"tk"<<con.initilize();
 
     int flag = 0;
 //    qDebug()<<con.data();
